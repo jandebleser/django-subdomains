@@ -11,10 +11,16 @@ from subdomains.utils import get_domain
 logger = logging.getLogger(__name__)
 lower = operator.methodcaller('lower')
 
+
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
 UNSET = object()
 
 
-class SubdomainMiddleware(object):
+class SubdomainMiddleware(MiddlewareMixin):
     """
     A middleware class that adds a ``subdomain`` attribute to the current request.
     """
